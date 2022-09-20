@@ -1,4 +1,4 @@
-# 인스타그램 스크래퍼
+# Instagram Scraping
 
 ## 개요
 
