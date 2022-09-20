@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { waitForElementByText } from './libs/elements.js';
 import puppeteer from 'puppeteer';
-import { downloadImage, getLastPathname, waitForTimeout } from 'libs/utils.js';
+import { waitForElementByText } from './libs/elements.js';
+import {
+  downloadImage,
+  getLastPathname,
+  waitForTimeout,
+} from './libs/utils.js';
 
 dotenv.config();
 
@@ -100,5 +104,6 @@ const BROWSER_HEIGHT = 1280;
     currentPostIndex++;
   }
 
+  console.log('Done!');
   await browser.close();
 })();
