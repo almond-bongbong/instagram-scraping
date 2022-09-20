@@ -86,7 +86,7 @@ const BROWSER_HEIGHT = 1280;
     }
 
     // Download images
-    const downloadDir = `${process.cwd()}/posts`;
+    const downloadDir = `${process.cwd()}/dist`;
     const postDir = content.substring(0, 10).replace(/(\r\n|\n|\r)/gm, '');
     const postDirPath = `${downloadDir}/${postDir}`;
     if (!fs.existsSync(postDirPath)) fs.mkdirSync(postDirPath);
