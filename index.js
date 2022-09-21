@@ -104,6 +104,6 @@ const BROWSER_HEIGHT = 1280;
     currentPostIndex++;
   }
 
-  console.log('Done!');
+  console.log('✅ Done!');
   await browser.close();
 })();
