@@ -51,9 +51,25 @@ const BROWSER_HEIGHT = 1280;
   // Get all posts
   const posts = await page.$$('article a[role="link"]');
 
+  // filter has svg[aria-label="Clip"] posts
+  const postsWithoutVideo = [];
+  for (const post of posts) {
+    const svg = await post.$('svg[aria-label="Clip"]');
+    if (!svg) {
+      postsWithoutVideo.push(post);
+    }
+  }
+
+  // Setup dist directory
+  const downloadDir = `${process.cwd()}/dist`;
+
+  // Remove and make dist directory
+  if (fs.existsSync(downloadDir)) fs.rmSync(downloadDir, { recursive: true });
+  if (!fs.existsSync(downloadDir)) fs.mkdirSync(downloadDir);
+
   let currentPostIndex = 0;
-  while (currentPostIndex < posts.length) {
-    await posts[currentPostIndex].click();
+  while (currentPostIndex < postsWithoutVideo.length) {
+    await postsWithoutVideo[currentPostIndex].click();
     const dialog = await page.waitForSelector('div[role="dialog"]');
 
     // Get post content text
@@ -85,11 +101,12 @@ const BROWSER_HEIGHT = 1280;
       await waitForTimeout(1000);
     }
 
-    // Download images
-    const downloadDir = `${process.cwd()}/dist`;
+    // Make post directory
     const postDir = content.substring(0, 10).replace(/(\r\n|\n|\r)/gm, '');
     const postDirPath = `${downloadDir}/${postDir}`;
     if (!fs.existsSync(postDirPath)) fs.mkdirSync(postDirPath);
+
+    // Download images
     const downloadPromises = imageUrls.map((imageUrl) =>
       downloadImage(imageUrl, `${postDirPath}/${getLastPathname(imageUrl)}`)
     );
